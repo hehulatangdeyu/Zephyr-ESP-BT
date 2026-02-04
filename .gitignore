@@ -1,0 +1,8 @@
+build/
+.venv/
+__pycache__/
+*.pyc
+*.o
+*.elf
+*.hex
+*.bin

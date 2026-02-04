@@ -1,0 +1,31 @@
+/ {
+        chosen {
+                zephyr,console = &uart0;
+                zephyr,shell-uart = &uart0;
+        };
+
+};
+
+&pinctrl {
+    uart0_custom_default: uart0_custom_default {
+        group1 {
+            pinmux = <UART0_TX_GPIO0>,
+                     <UART0_RX_GPIO1>;
+            bias-pull-up;
+        };
+    };
+};
+
+&dma {
+    status = "okay";
+};
+
+/* 2. 为 uart0 配置 DMA 通道 */
+&uart0 {
+    status = "okay";
+    dmas = <&dma 0>, <&dma 1>;
+    dma-names = "rx", "tx";
+    /* 覆盖默认的引脚配置，使用上面定义的新配置 */
+    pinctrl-0 = <&uart0_custom_default>;
+    pinctrl-names = "default";
+};
